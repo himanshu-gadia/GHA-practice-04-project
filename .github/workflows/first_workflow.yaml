@@ -1,2 +1,41 @@
 name: first_workflow
 on: push
+jobs:
+  first_job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: first_step_first_job
+        uses: actions/checkout@v3
+      - name: second_step_first_job
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      - name: Download dependency
+        run: npm ci
+  second_job:
+    needs: [first_job]
+    runs-on: ubuntu-latest
+    steps:
+      - name: lint the project
+        run: npm run lint
+  third_job:
+    needs: [second_job]
+    runs-on: ubuntu-latest
+    steps:
+      - name: test the project
+        run: npm run test
+  fourth_job:
+    needs: [third_job]
+    runs-on: ubuntu-latest
+    steps:
+      - name: build the project
+        run: npm run build
+  fifth_job:
+    needs: [fourth_job]
+    runs-on: ubuntu-latest
+    steps:
+      - name: deploy the project
+        run: |
+          echo "Deploying the project .........."
+          echo "Project deployed!"
+        
