@@ -1,0 +1,10 @@
+name: second_workflow
+on:
+  issues:
+     types: [opened, edited, milestoned]
+jobs:
+  job_name:
+    runs-on: ubuntu-latest
+    steps:
+      - name: events_details_output
+        run: echo "{{ ($github).toJSON }}"
